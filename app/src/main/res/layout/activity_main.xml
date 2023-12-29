@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ontdek en geniet"
                     android:textColor="@color/white"
-                    android:textSize="27sp"/>
+                    android:textSize="20sp"/>
 
                 <TextView
                     android:id="@+id/textView5"
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:text="Ontdek je favoriete shows en start met kijken! Onze film-app biedt een eenvoudige en boeiende ervaring. Druk op 'Aan de slag' en begin jouw ontdekkingsreis!"
                     android:textColor="#D3D3D3"
-                    android:textSize="17sp"/>
+                    android:textSize="15sp"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button"
