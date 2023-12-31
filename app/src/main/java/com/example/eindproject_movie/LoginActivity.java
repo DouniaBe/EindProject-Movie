@@ -1,20 +1,25 @@
+// LoginActivity.java
 package com.example.eindproject_movie;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
+import com.example.eindproject_movie.database.MyAppDatabase;
+import com.example.eindproject_movie.entities.User;
+
 public class LoginActivity extends AppCompatActivity {
     private EditText userEdt, passEdt;
     private Button loginBtn;
     private TextView linkRegister;
-
+    private MyAppDatabase myAppDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +28,8 @@ public class LoginActivity extends AppCompatActivity {
 
         initView();
 
-        // Voeg een klikluisteraar toe aan de tekstweergave om naar de registratieactiviteit te gaan
+        myAppDatabase = Room.databaseBuilder(getApplicationContext(), MyAppDatabase.class, "my-database").build();
+
         linkRegister.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
@@ -34,18 +40,39 @@ public class LoginActivity extends AppCompatActivity {
         userEdt = findViewById(R.id.editTextText);
         passEdt = findViewById(R.id.editTextPassword);
         loginBtn = findViewById(R.id.loginBtn);
-
-        // Pas de ID aan naar de nieuwe ID van je TextView in activity_login.xml
         linkRegister = findViewById(R.id.linkRegister);
 
         loginBtn.setOnClickListener(v -> {
-            if (userEdt.getText().toString().isEmpty() || passEdt.getText().toString().isEmpty()) {
+            String username = userEdt.getText().toString().trim();
+            String password = passEdt.getText().toString().trim();
+
+            if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "Ontbrekende gegevens", Toast.LENGTH_SHORT).show();
-            } else if (userEdt.getText().toString().equals("test") && passEdt.getText().toString().equals("test")) {
-                startActivity(new Intent(LoginActivity.this , MainActivity.class));
             } else {
-                Toast.makeText(LoginActivity.this , "Jouw gebruikersnaam of wachtwoord zijn niet correct", Toast.LENGTH_SHORT).show();
+                new LoginTask().execute(username, password);
             }
         });
     }
+
+    private class LoginTask extends AsyncTask<String, Void, User> {
+
+        @Override
+        protected User doInBackground(String... params) {
+            String username = params[0];
+            String password = params[1];
+            return myAppDatabase.userDao().getUserByUsernameAndPassword(username, password);
+        }
+
+        @Override
+        protected void onPostExecute(User user) {
+            if (user != null) {
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            } else {
+                Toast.makeText(LoginActivity.this, "Jouw gebruikersnaam of wachtwoord zijn niet correct", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }
+
+
+
