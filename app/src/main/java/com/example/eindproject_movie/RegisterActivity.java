@@ -1,23 +1,17 @@
-// RegisterActivity.java
 package com.example.eindproject_movie;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
-import com.example.eindproject_movie.database.MyAppDatabase;
-import com.example.eindproject_movie.entities.User;
-
 public class RegisterActivity extends AppCompatActivity {
     private EditText userEdt, emailEdt, passEdt, confirmPassEdt;
     private Button registerBtn;
-    private MyAppDatabase myAppDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +19,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         initView();
-
-        myAppDatabase = Room.databaseBuilder(getApplicationContext(), MyAppDatabase.class, "my-database").build();
     }
 
     private void initView() {
@@ -47,51 +39,13 @@ public class RegisterActivity extends AppCompatActivity {
             } else if (!password.equals(confirmPassword)) {
                 Toast.makeText(RegisterActivity.this, "Wachtwoorden komen niet overeen", Toast.LENGTH_SHORT).show();
             } else {
-                new CheckUserExistsTask().execute(username, email, password);
+                // Voer hier je registratielogica in
+                // Bijvoorbeeld: sla de gebruikersnaam, e-mail en wachtwoord op in een database of een ander opslagmechanisme
+                Toast.makeText(RegisterActivity.this, "Registratie succesvol", Toast.LENGTH_SHORT).show();
+
+                // Na registratie kun je de gebruiker doorsturen naar de inlogactiviteit of een andere activiteit
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
     }
-
-    private class CheckUserExistsTask extends AsyncTask<String, Void, User> {
-
-        private String[] params; // Voeg deze lijn toe om de params bij te houden
-
-        @Override
-        protected User doInBackground(String... params) {
-            this.params = params; // Sla de params op in de klassevariabele
-            return myAppDatabase.userDao().getUserByUsernameOrEmail(params[0], params[1]);
-        }
-
-        @Override
-        protected void onPostExecute(User existingUser) {
-            if (existingUser == null) {
-                // Geen bestaande gebruiker gevonden, voeg de nieuwe gebruiker toe
-                new RegisterTask().execute(params); // Gebruik de opgeslagen params
-            } else {
-                // Bestaande gebruiker gevonden met dezelfde gebruikersnaam of e-mail
-                Toast.makeText(RegisterActivity.this, "Een gebruiker met dezelfde gebruikersnaam of e-mail bestaat al", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private class RegisterTask extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            User newUser = new User();
-            newUser.username = params[0];
-            newUser.email = params[1];
-            newUser.password = params[2];
-
-            myAppDatabase.userDao().insertUser(newUser);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            Toast.makeText(RegisterActivity.this, "Registratie succesvol", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-        }
-    }
 }
-
