@@ -32,7 +32,8 @@ dependencies {
 
 
         implementation("androidx.navigation:navigation-fragment:2.7.6")
-        implementation("androidx.navigation:navigation-ui:2.7.6")
+        implementation("androidx.navigation:navigation-ui:2.7.6" )
+        implementation("androidx.viewpager2:viewpager2:1.0.0")
         val room_version = "2.6.1"
         implementation("androidx.room:room-runtime:$room_version")
         annotationProcessor("androidx.room:room-compiler:$room_version")
