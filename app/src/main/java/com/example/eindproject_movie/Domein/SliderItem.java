@@ -1,4 +1,4 @@
-package com.example.eindproject_movie.Domian;
+package com.example.eindproject_movie.Domein;
 
 public class SliderItem {
     private int image;

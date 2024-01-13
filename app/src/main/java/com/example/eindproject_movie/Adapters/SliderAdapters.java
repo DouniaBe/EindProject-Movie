@@ -2,7 +2,6 @@ package com.example.eindproject_movie.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.RoundedCorner;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.eindproject_movie.Domian.SliderItem;
+import com.example.eindproject_movie.Domein.SliderItem;
 import com.example.eindproject_movie.R;
 
 import java.util.List;
