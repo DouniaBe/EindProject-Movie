@@ -16,8 +16,6 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.eindproject_movie.Adapters.FilmListAdapter;
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-     private RecyclerView.Adapter adapterBestMovies,AdapterUpComming, adapterCategory;
+     private RecyclerView.Adapter adapterBestMovies,adapterUpComming, adapterCategory;
     private RecyclerView recyclerViewBestMovies, recyclerViewUpcomming, recyclerViewCategory;
 
     private RequestQueue mRequestQueue;
@@ -47,24 +45,41 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         banners();
-        sendRequest();
+        sendRequestBestMovies();
+        sendRequestUpComming();
 
     }
 
-    private void sendRequest() {
+    private void sendRequestBestMovies() {
         mRequestQueue= Volley.newRequestQueue(this);
         loading1.setVisibility(View.VISIBLE);
         mStringRequest=new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", response -> {
             Gson gson= new Gson();
             loading1.setVisibility(View.GONE);
-            ListFilm item=gson.fromJson(response, ListFilm.class);
-            adapterBestMovies=new FilmListAdapter(item);
+            ListFilm items=gson.fromJson(response, ListFilm.class);
+            adapterBestMovies=new FilmListAdapter(items);
             recyclerViewBestMovies.setAdapter(adapterBestMovies);
         }, error -> {
                 loading1.setVisibility(View.GONE);
                 Log.i("sorry er is iets mis ", "onErrorResponse :"+error.toString());
             });
         mRequestQueue.add(mStringRequest);
+    }
+
+    private void sendRequestUpComming() {
+        mRequestQueue= Volley.newRequestQueue(this);
+        loading3.setVisibility(View.VISIBLE);
+        mStringRequest3=new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=2", response -> {
+            Gson gson= new Gson();
+            loading3.setVisibility(View.GONE);
+            ListFilm items=gson.fromJson(response, ListFilm.class);
+            adapterUpComming=new FilmListAdapter(items);
+            recyclerViewUpcomming.setAdapter(adapterUpComming);
+        }, error -> {
+            loading3.setVisibility(View.GONE);
+            Log.i("sorry er is iets mis ", "onErrorResponse :"+error.toString());
+        });
+        mRequestQueue.add(mStringRequest3);
     }
 
     private void banners() {

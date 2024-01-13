@@ -22,11 +22,11 @@ import java.util.List;
 
 public class FilmListAdapter  extends RecyclerView.Adapter<FilmListAdapter.viewHolder> {
 
-    ListFilm item;
+    ListFilm items;
     Context context;
 
-    public FilmListAdapter(ListFilm item) {
-        this.item = item;
+    public FilmListAdapter(ListFilm items) {
+        this.items = items;
     }
 
     @NonNull
@@ -40,17 +40,17 @@ public class FilmListAdapter  extends RecyclerView.Adapter<FilmListAdapter.viewH
     @Override
     public void onBindViewHolder(@NonNull FilmListAdapter.viewHolder holder, int position) {
 
-        holder.titleTxt.setText(item.getData().get(position).getTitle());
+        holder.titleTxt.setText(items.getData().get(position).getTitle());
         RequestOptions requestOptions=new RequestOptions();
         requestOptions=requestOptions.transform(new CenterCrop(), new RoundedCorners(30));
 
         Glide.with(context)
-                .load(item.getData().get(position).getPoster())
+                .load(items.getData().get(position).getPoster())
                 .apply(requestOptions)
                 .into(holder.pic);
         holder.itemView.setOnClickListener(v -> {
             Intent intent=new Intent(holder.itemView.getContext() , DetailActivity.class);
-            intent.putExtra("id" , item.getData().get(position).getId());
+            intent.putExtra("id" , items.getData().get(position).getId());
             context.startActivity(intent);
 
         });
@@ -58,7 +58,7 @@ public class FilmListAdapter  extends RecyclerView.Adapter<FilmListAdapter.viewH
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.getData().size();
     }
 
     public class viewHolder extends RecyclerView.ViewHolder{

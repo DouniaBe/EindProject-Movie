@@ -4,7 +4,6 @@ package com.example.eindproject_movie.Domein;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-
 public class Metadata {
 
     @SerializedName("current_page")
