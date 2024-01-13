@@ -1,5 +1,5 @@
 // LoginActivity.java
-package com.example.eindproject_movie;
+package com.example.eindproject_movie.Activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.eindproject_movie.R;
 import com.example.eindproject_movie.database.MyAppDatabase;
 import com.example.eindproject_movie.entities.User;
 

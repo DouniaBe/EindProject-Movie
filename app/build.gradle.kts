@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.eindproject_movie"
-        minSdk = 24
+        minSdk = 31
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -34,7 +34,9 @@ dependencies {
         implementation("androidx.navigation:navigation-fragment:2.7.6")
         implementation("androidx.navigation:navigation-ui:2.7.6" )
         implementation("androidx.viewpager2:viewpager2:1.0.0")
-        val room_version = "2.6.1"
+        implementation("com.github.bumptech.glide:glide:4.12.0")
+
+    val room_version = "2.6.1"
         implementation("androidx.room:room-runtime:$room_version")
         annotationProcessor("androidx.room:room-compiler:$room_version")
 
@@ -44,6 +46,7 @@ dependencies {
         testImplementation("junit:junit:4.13.2")
         androidTestImplementation("androidx.test.ext:junit:1.1.5")
         androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
 
 
 }
