@@ -15,6 +15,8 @@
         <activity
             android:name=".Activities.DetailActivity"
             android:exported="false" />
+        <activity android:name=".Activities.FilmListActivity" />
+
         <activity
             android:name=".Activities.MainActivity"
             android:exported="true" > </activity>
